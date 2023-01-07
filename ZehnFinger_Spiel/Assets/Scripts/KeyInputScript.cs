@@ -13,11 +13,6 @@ public class KeyInputScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Destroy(gameObject);
-        }
-
         Vector3 movement = (Vector3.back * Time.deltaTime);
         transform.Translate(movement);
 
