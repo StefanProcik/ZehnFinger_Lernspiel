@@ -15,6 +15,5 @@ public class KeyInputScript : MonoBehaviour
     {
         Vector3 movement = (Vector3.back * Time.deltaTime);
         transform.Translate(movement);
-
     }
 }

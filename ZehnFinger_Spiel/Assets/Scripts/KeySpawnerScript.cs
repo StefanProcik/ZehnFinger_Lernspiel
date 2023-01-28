@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +6,7 @@ using UnityEngine.UI;
 public class KeySpawnerScript : MonoBehaviour
 {
     public GameObject keyPrefab;
+    public ScoreScript scoreScript;
 
     private float timer = 2;
 
@@ -15,17 +14,13 @@ public class KeySpawnerScript : MonoBehaviour
 
     private List<GameObject> instantiatedObjects = new List<GameObject>() { };
 
-    private float xMin = -0.5f, xMax = 0.5f;
-
-    private int index = -1;
     bool TimerFinished()
     {
-        timer -= Time.deltaTime;
+        this.timer -= Time.deltaTime;
 
         if (timer <= 0)
         {
-            timer = 2;
-            index++;
+            this.timer = 2;
             return true;
         }
         else
@@ -45,7 +40,7 @@ public class KeySpawnerScript : MonoBehaviour
     {
         if (TimerFinished())
         {
-            TextMeshPro textMeshPro = keyPrefab.GetComponent<TextMeshPro>();
+            TextMeshPro textMeshPro = this.keyPrefab.GetComponent<TextMeshPro>();
             textMeshPro.text = GetRandomWord();
             float x = Random.Range(-1f, 14f);
             float y = Random.Range(-5f, 4f);
@@ -53,14 +48,14 @@ public class KeySpawnerScript : MonoBehaviour
             x = Mathf.Clamp(x, -1f, 14f);
             y = Mathf.Clamp(y, -5f, 4f);
             Vector3 spawnPosition = new Vector3(x, y, 20);
-            GameObject obj = (Instantiate(keyPrefab, spawnPosition, keyPrefab.transform.rotation));
-            instantiatedObjects.Add(obj);
+            GameObject obj = (Instantiate(this.keyPrefab, spawnPosition, this.keyPrefab.transform.rotation));
+            this.instantiatedObjects.Add(obj);
         }
-        if (Input.anyKeyDown && instantiatedObjects.Count > 0)
+        if (Input.anyKeyDown && this.instantiatedObjects.Count > 0)
         {
-            Debug.Log("if input");
-            GameObject wordObject = instantiatedObjects[0];
+            GameObject wordObject = this.instantiatedObjects[0];
             TextMeshPro word = wordObject.GetComponent<TextMeshPro>();
+            bool rightKeyWasPressed = false;
             foreach (KeyCode key in System.Enum.GetValues(typeof(KeyCode)))
             {
                 if (Input.GetKeyDown(key) && char.ToUpper((char)key) == char.ToUpper(word.text[0]))
@@ -71,10 +66,18 @@ public class KeySpawnerScript : MonoBehaviour
                     }
                     else
                     {
-                        instantiatedObjects.RemoveAt(0);
+                        this.instantiatedObjects.RemoveAt(0);
                         Destroy(wordObject);
+                        this.scoreScript.AddScore(10);
                     }
+                    rightKeyWasPressed= true;
                 }
+            }
+            if (!rightKeyWasPressed)
+            {
+
+                this.scoreScript.SubtractScore(5);
+                
             }
         }
     }
