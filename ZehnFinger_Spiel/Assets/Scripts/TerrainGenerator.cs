@@ -15,10 +15,10 @@ public class TerrainGenerator : MonoBehaviour
     //Color[] colors;
     Vector2[] uvs;
 
-    public int xSize = 20;
-    public int zSize = 20;
+    public int xSize = 100;
+    public int zSize = 100;
 
-    public int pathWidth = 5;
+    public int pathWidth = 25;
 
     public float noiseScale = 2.0f;
     public float noiseAmplifier = 0.3f;
@@ -27,6 +27,8 @@ public class TerrainGenerator : MonoBehaviour
 
     float minTerrainHeight = float.MaxValue;
     float maxTerrainHeight = float.MinValue;
+
+    public TreeGenerator treeSpawner;
 
     // Start is called before the first frame update
     void Start()
@@ -68,6 +70,8 @@ public class TerrainGenerator : MonoBehaviour
                 i++;
             }
         }
+
+        treeSpawner.CreateTrees(vertices, xSize, pathWidth);
 
         triangles = new int[xSize * zSize * 6];
 
