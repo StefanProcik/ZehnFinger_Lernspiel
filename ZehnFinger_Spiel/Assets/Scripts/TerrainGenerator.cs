@@ -12,7 +12,6 @@ public class TerrainGenerator : MonoBehaviour
     Vector3[] vertices;
     int[] triangles;
 
-    //Color[] colors;
     Vector2[] uvs;
 
     public int xSize = 100;
@@ -22,8 +21,6 @@ public class TerrainGenerator : MonoBehaviour
 
     public float noiseScale = 2.0f;
     public float noiseAmplifier = 0.3f;
-
-    public Gradient gradient;
 
     float minTerrainHeight = float.MaxValue;
     float maxTerrainHeight = float.MinValue;
@@ -41,7 +38,7 @@ public class TerrainGenerator : MonoBehaviour
         UpdateMesh();
     }
 
-    void CreateMesh() {
+    public void CreateMesh() {
 
         vertices = new Vector3[(xSize + 1) * (zSize + 1)];
         uvs = new Vector2[vertices.Length];
@@ -52,8 +49,10 @@ public class TerrainGenerator : MonoBehaviour
                 float widthAmplifier = (x - xSize / 2.0f) / (xSize / 2.0f);
                 widthAmplifier = Mathf.Abs(widthAmplifier);
 
+                float lengthAmplifier = Mathf.Abs((z - zSize / 2.0f) / (zSize / 2.0f)) - 1.0f;
+
                 float y = Mathf.PerlinNoise(x * noiseAmplifier,
-                    z * noiseAmplifier) * noiseScale * widthAmplifier;
+                    z * noiseAmplifier) * noiseScale * widthAmplifier * lengthAmplifier;
 
                 vertices[i] = new Vector3(x, y, z);
 
@@ -71,7 +70,7 @@ public class TerrainGenerator : MonoBehaviour
             }
         }
 
-        treeSpawner.CreateTrees(vertices, xSize, pathWidth);
+        treeSpawner.CreateTrees(vertices, xSize, pathWidth, transform);
 
         triangles = new int[xSize * zSize * 6];
 
@@ -94,33 +93,13 @@ public class TerrainGenerator : MonoBehaviour
             vert++;
         }
 
-        //colors = new Color[vertices.Length];
-
-        /*for (int z = 0, i = 0; z <= zSize; z++) {
-            for (int x = 0; x <= xSize; x++) {
-
-                //float height = Mathf.InverseLerp(minTerrainHeight,
-                //    maxTerrainHeight, vertices[i].y);
-
-                //colors[i] = gradient.Evaluate(height);
-               
-                if(x > (xSize / 2) - pathWidth && x < (xSize / 2) + pathWidth) {
-                    colors[i] = new Color(0.7f, 0.5f, 0.2f);  
-                } else {
-                    colors[i] = new Color(0.1f, 0.8f, 0.0f);
-                }   
-                i++;
-            }
-        }*/
-
     }
 
-    void UpdateMesh() {
+    public void UpdateMesh() {
         mesh.Clear();
 
         mesh.vertices = vertices;
         mesh.triangles = triangles;
-        //mesh.colors = colors;
         mesh.uv = uvs;
 
         mesh.RecalculateNormals();
