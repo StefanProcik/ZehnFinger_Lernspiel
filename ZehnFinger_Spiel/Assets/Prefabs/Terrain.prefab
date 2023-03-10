@@ -103,7 +103,6 @@ MonoBehaviour:
   noiseScale: 8
   noiseAmplifier: 0.05
   treeSpawner: {fileID: 2446725305335191292}
-  parent: {fileID: 3329136594690417979}
 --- !u!114 &2446725305335191292
 MonoBehaviour:
   m_ObjectHideFlags: 0
