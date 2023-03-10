@@ -1,18 +1,19 @@
-using System.Collections.Generic;
+/*using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class KeySpawnerScript : MonoBehaviour
 {
-    public GameObject keyPrefab;
+    public EnemyScript enemy;
     public ScoreScript scoreScript;
 
     private float timer = 2;
 
     private static readonly List<string> words = new List<string> { "able", "bake", "cake", "dare", "fear", "gaze", "haze", "joke", "lake", "make" };
 
-    private List<GameObject> instantiatedObjects = new List<GameObject>() { };
+    private List<EnemyScript> instantiatedObjects = new List<EnemyScript>() { };
 
     bool TimerFinished()
     {
@@ -36,51 +37,36 @@ public class KeySpawnerScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    *//*void Update()
     {
-        if (TimerFinished())
+        if (TimerFinished() && this.instantiatedObjects.Count == 0)
         {
-            TextMeshPro textMeshPro = this.keyPrefab.GetComponent<TextMeshPro>();
-            textMeshPro.text = GetRandomWord();
-            float x = Random.Range(-1f, 14f);
-            float y = Random.Range(-5f, 4f);
-
-            x = Mathf.Clamp(x, -1f, 14f);
-            y = Mathf.Clamp(y, -5f, 4f);
-            Vector3 spawnPosition = new Vector3(x, y, 20);
-            GameObject obj = (Instantiate(this.keyPrefab, spawnPosition, this.keyPrefab.transform.rotation));
-            this.instantiatedObjects.Add(obj);
+            //Instantiate(enemy);
+            //this.instantiatedObjects.Add(enemy.Spawn(this.GetRandomWord()));
         }
         if (Input.anyKeyDown && this.instantiatedObjects.Count > 0)
         {
-            GameObject wordObject = this.instantiatedObjects[0];
-            TextMeshPro word = wordObject.GetComponent<TextMeshPro>();
-            bool rightKeyWasPressed = false;
+            int currentCharCount = this.instantiatedObjects[0].word.Count();
             foreach (KeyCode key in System.Enum.GetValues(typeof(KeyCode)))
             {
-                if (Input.GetKeyDown(key) && char.ToUpper((char)key) == char.ToUpper(word.text[0]))
+                if (Input.GetKeyDown(key))
                 {
-                    if (word.text.Length > 1)
-                    {
-                        word.text = word.text.Substring(1);
-                    }
-                    else
+                    if (this.enemy.KeyInputTrigger(char.ToUpper((char)key)) == 0)
                     {
                         this.instantiatedObjects.RemoveAt(0);
-                        Destroy(wordObject);
+                        Destroy(enemy);
                         this.scoreScript.AddScore(10);
+                        break;
                     }
-                    rightKeyWasPressed= true;
                 }
             }
-            if (!rightKeyWasPressed)
-            {
-
-                this.scoreScript.SubtractScore(5);
-                
-            }
+           // if (currentCharCount == this.instantiatedObjects[0].word.Count())
+           // {
+           //     this.scoreScript.SubtractScore(5);
+           // }
         }
-    }
+        
+    }*//*
 
     string GetRandomWord()
     {
@@ -88,3 +74,4 @@ public class KeySpawnerScript : MonoBehaviour
         return words[index];
     }
 }
+*/

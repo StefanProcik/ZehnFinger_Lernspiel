@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -22,6 +23,7 @@ public class ScoreScript : MonoBehaviour
     public void AddScore(int amount)
     {
         score += amount;
+        Console.WriteLine("Added " + amount + " points to the Score");
     }
 
     public void SubtractScore(int amount)

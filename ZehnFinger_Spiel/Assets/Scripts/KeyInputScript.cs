@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class KeyInputScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+/*    public string word;
+    public GameObject floatingWord;
+    
+    void 
+    public int KeyInputTrigger(char inputKey)
     {
-        
+        if (word.ToCharArray()[0] == inputKey)
+        {
+            word = 
+        }
+        return 0;
     }
 
     // Update is called once per frame
@@ -15,5 +22,5 @@ public class KeyInputScript : MonoBehaviour
     {
         Vector3 movement = (Vector3.back * Time.deltaTime);
         transform.Translate(movement);
-    }
+    }*/
 }
